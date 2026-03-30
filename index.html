@@ -37,11 +37,11 @@
       method: "POST",
       headers: {
         "Content-Type": "application/json",
-        "token": params.get("token")
+        "token": params.get("token") || "0"
       },
       body: JSON.stringify({
-        action: params.get("action"),
-        page: params.get("page")
+        action: params.get("action") || "",
+        page: params.get("page") || ""
       })
     })
       .then(() => {
