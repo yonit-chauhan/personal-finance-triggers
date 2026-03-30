@@ -1,37 +1,57 @@
 <!DOCTYPE html>
 <html>
+
 <head>
   <title>Triggering...</title>
   <style>
-    body { font-family: sans-serif; display: flex; justify-content: center; 
-           align-items: center; height: 100vh; margin: 0; background: #f5f5f5; }
-    .box { text-align: center; padding: 2rem; background: white; 
-           border-radius: 12px; box-shadow: 0 2px 12px rgba(0,0,0,0.1); }
+    body {
+      font-family: sans-serif;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      height: 100vh;
+      margin: 0;
+      background: #f5f5f5;
+    }
+
+    .box {
+      text-align: center;
+      padding: 2rem;
+      background: white;
+      border-radius: 12px;
+      box-shadow: 0 2px 12px rgba(0, 0, 0, 0.1);
+    }
   </style>
 </head>
+
 <body>
   <div class="box">
     <p id="msg">⏳ Triggering workflow...</p>
   </div>
+
   <script>
     const N8N_WEBHOOK = "https://n8n.yonit.in/webhook/finance-notion-trigger";
     const params = new URLSearchParams(window.location.search);
 
     fetch(N8N_WEBHOOK, {
       method: "POST",
-      headers: { "Content-Type": "application/json" },
+      headers: {
+        "Content-Type": "application/json",
+        "token": params.get("token")
+      },
       body: JSON.stringify({
-        source: "notion-button",
-        page: params.get("page") || "unknown"
+        action: params.get("action"),
+        page: params.get("page")
       })
     })
-    .then(() => {
-      document.getElementById("msg").innerHTML = "✅ Done!";
-      setTimeout(() => window.close(), 1500);
-    })
-    .catch(() => {
-      document.getElementById("msg").innerHTML = "❌ Failed to trigger. Check webhook URL.";
-    });
+      .then(() => {
+        document.getElementById("msg").innerHTML = "✅ Done!";
+        setTimeout(() => window.close(), 1500);
+      })
+      .catch(() => {
+        document.getElementById("msg").innerHTML = "❌ Failed to trigger.";
+      });
   </script>
 </body>
+
 </html>
