@@ -48,8 +48,9 @@
         document.getElementById("msg").innerHTML = "✅ Done!";
         setTimeout(() => window.close(), 1500);
       })
-      .catch(() => {
-        document.getElementById("msg").innerHTML = "❌ Failed to trigger.";
+      .catch((error) => {
+        const errorMessage = error instanceof Error ? error.message : String(error);
+        document.getElementById("msg").innerHTML = `❌ Failed to trigger.<br>${errorMessage}`;
       });
   </script>
 </body>
